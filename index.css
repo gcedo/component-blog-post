@@ -42,7 +42,8 @@
 }
 
 .blog-post__title {
-  font-family: 'Halifax Bold';
+  /* Change this when font is available */
+  font-family: 'FF Milo Serif OT Medium';
   font-size: var(--text-size-step-5);
   line-height: var(--text-line-height-body-bold-on-step-5);
   letter-spacing: var(--text-letter-spacing-body-bold-on-step-5);
