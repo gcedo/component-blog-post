@@ -4,9 +4,9 @@
 
 .blog-post {
   font-size: 1rem;
-  font-family: var(--fontfamily-body);
+  font-family: var(--fontfamily-sans);
   font-size: var(--text-size-step-0);
-  line-height: var(--text-line-height-body-on-step-0);
+  line-height: var(--text-line-height-sans-on-step-0);
 }
 
 .blog-post__text figure,
@@ -28,15 +28,16 @@
 .blog-post__image-caption {
   color: var(--blog-post-color-image-caption, var(--color-moscow));
   font-size: var(--text-size-step--3);
-  line-height: var(--text-line-height-body-light-on-step--2);
-  letter-spacing: var(--text-letter-spacing-body-light-on-step--2);
+  line-height: var(--text-line-height-sans-light-on-step--2);
+  letter-spacing: var(--text-letter-spacing-sans-light-on-step--2);
   font-family: 'Halifax Light';
   margin-top: var(--grid-spacing-hedgehog);
 }
 
 .blog-post__flytitle {
   font-size: var(--text-size-step--1);
-  line-height: var(--text-line-height-body-light-on-step--1);
+  font-weight: normal;
+  line-height: var(--text-line-height-sans-light-on-step--1);
   color: var(--blog-post-color-flytitle, var(--color-economist));
   margin: 0 0 var(--blog-post-flytitle-spacing, var(--grid-spacing-mouse)) 0;
 }
@@ -45,8 +46,9 @@
   /* Change this when font is available */
   font-family: 'FF Milo Serif OT Medium';
   font-size: var(--text-size-step-5);
-  line-height: var(--text-line-height-body-bold-on-step-5);
-  letter-spacing: var(--text-letter-spacing-body-bold-on-step-5);
+  line-height: var(--text-line-height-serif-medium-on-step-5);
+  letter-spacing: var(--text-letter-spacing-serif-medium-on-step-5);
+  font-weight: normal;
   color: var(--blog-post-color-title, var(--color-beijing));
   margin: 0 0 var(--blog-post-title-spacing, var(--grid-spacing-rabbit)) 0;
 }
@@ -54,8 +56,8 @@
 .blog-post__text,
 .blog-post__rubric {
   font-size: var(--text-size-step-0);
-  line-height: var(--text-line-height-display-on-step-0);
-  font-family: var(--fontfamily-display);
+  line-height: var(--text-line-height-serif-on-step-0);
+  font-family: var(--fontfamily-serif);
   color: var(--blog-post-color-text, var(--color-beijing));
 }
 
@@ -71,8 +73,8 @@
 .blog-post__datetime,
 .blog-post__byline-container {
   font-size: var(--text-size-step--3);
-  line-height: var(--text-line-height-body-light-on-step--2);
-  letter-spacing: var(--text-letter-spacing-body-light-on-step--2);
+  line-height: var(--text-line-height-sans-light-on-step--2);
+  letter-spacing: var(--text-letter-spacing-sans-light-on-step--2);
   font-family: 'Halifax Light';
   color: var(--blog-post-color-datetime, var(--color-moscow));
 }
@@ -84,7 +86,7 @@
 
 .blog-post__section {
   font-size: var(--text-size-step--2);
-  line-height: var(--text-line-height-body-on-step--2);
+  line-height: var(--text-line-height-sans-on-step--2);
   font-weight: lighter;
   color: var(--blog-post-color-section, var(--color-beijing));
   margin: var(--blog-post-section-spacing, var(--grid-spacing-hedgehog)) 0;
@@ -145,7 +147,7 @@
   content: '\201D';
   color: var(--blog-post-color-blockquote-quotes, var(--color-london));
   font-size: var(--text-size-step-3);
-  line-height: var(--text-line-height-display-on-step-3);
+  line-height: var(--text-line-height-serif-on-step-3);
   text-indent: 0;
   font-family: 'FF Milo Serif Pro';
   font-weight: bold;
