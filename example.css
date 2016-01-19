@@ -18,3 +18,7 @@ body {
   }
 }
 @import './index.css';
+
+.component-panel {
+  overflow: hidden;
+}

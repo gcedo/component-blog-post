@@ -102,7 +102,7 @@
   text-decoration: none;
 }
 .blog-post__section-link:hover {
-  color: var(--blog-post-color-section-link-hover, var(--color-honolulu));
+  color: var(--blog-post-color-section-link-hover, var(--color-chicago));
 }
 .blog-post__section-link:visited {
   color: inherit;
@@ -115,8 +115,8 @@
 }
 .blog-post__text a:visited,
 .blog-post__text a:hover {
-  color: var(--blog-post-color-link-visited, var(--color-honolulu));
-  border-bottom-color: var(--blog-post-color-link-visited, var(--color-honolulu));
+  color: var(--blog-post-color-link-visited, var(--color-chicago));
+  border-bottom-color: var(--blog-post-color-link-visited, var(--color-chicago));
 }
 
 @media screen and (min-width: 593px) {
