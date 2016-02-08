@@ -30,7 +30,7 @@
   font-size: var(--text-size-step--3);
   line-height: var(--text-line-height-sans-light-on-step--2);
   letter-spacing: var(--text-letter-spacing-sans-light-on-step--2);
-  font-family: 'Halifax Light';
+  font-family: var(--blog-post__image-caption-font-family, var(--fontfamily-sans));
   margin-top: var(--grid-spacing-hedgehog);
 }
 
@@ -43,12 +43,11 @@
 }
 
 .blog-post__title {
-  /* Change this when font is available */
-  font-family: 'FF Milo Serif OT Medium';
+  font-family: var(—blog-post__title-font-family, var(--fontfamily-serif));
   font-size: var(--text-size-step-5);
   line-height: var(--text-line-height-serif-medium-on-step-5);
   letter-spacing: var(--text-letter-spacing-serif-medium-on-step-5);
-  font-weight: normal;
+  font-weight: 500;
   color: var(--blog-post-color-title, var(--color-beijing));
   margin: 0 0 var(--blog-post-title-spacing, var(--grid-spacing-rabbit)) 0;
 }
@@ -57,13 +56,13 @@
 .blog-post__rubric {
   font-size: var(--text-size-step-0);
   line-height: var(--text-line-height-serif-on-step-0);
-  font-family: var(--fontfamily-serif);
+  font-family: var(—-blog-post__text-rubric-font-family, var(--fontfamily-serif));
   color: var(--blog-post-color-text, var(--color-beijing));
 }
 
 .blog-post__rubric {
-  font-family: 'FF Milo Serif Pro Med Italic';
   margin: 0 0 var(--blog-post-rubric-spacing, var(--grid-spacing-fox)) 0;
+  font-style: italic;
 }
 
 .blog-post__text {
@@ -75,19 +74,24 @@
   font-size: var(--text-size-step--3);
   line-height: var(--text-line-height-sans-light-on-step--2);
   letter-spacing: var(--text-letter-spacing-sans-light-on-step--2);
-  font-family: 'Halifax Light';
   color: var(--blog-post-color-datetime, var(--color-moscow));
 }
 
 .blog-post__byline-container {
-  font-family: 'FF Milo Serif Pro Med Italic';
+  font-family: var(—-blog-post__byline-container-font-family, var(--fontfamily-serif));
+  font-style: italic;
   margin: 0;
+}
+
+.blog-post__datetime {
+  font-family: var(—-blog-post__datetime-font-family, var(--fontfamily-sans));
+  font-weight: 300;
 }
 
 .blog-post__section {
   font-size: var(--text-size-step--2);
   line-height: var(--text-line-height-sans-on-step--2);
-  font-weight: lighter;
+  font-weight: normal;
   color: var(--blog-post-color-section, var(--color-beijing));
   margin: var(--blog-post-section-spacing, var(--grid-spacing-hedgehog)) 0;
 }
@@ -104,6 +108,7 @@
 .blog-post__section-link:hover {
   color: var(--blog-post-color-section-link-hover, var(--color-chicago));
 }
+
 .blog-post__section-link:visited {
   color: inherit;
 }
@@ -135,7 +140,8 @@
 .blog-post__text blockquote {
   margin: var(--grid-spacing-sheep) var(--grid-spacing-fox);
   color: var(--blog-post-color-blockquote, var(--color-moscow));
-  font-family: 'FF Milo Serif Pro Med Italic';
+  font-family: var(—-blog-post__blockquote-font-family, var(--fontfamily-serif));
+  font-style: italic;
 }
 
 .blog-post__text blockquote > :first-child {
@@ -149,11 +155,12 @@
   font-size: var(--text-size-step-3);
   line-height: var(--text-line-height-serif-on-step-3);
   text-indent: 0;
-  font-family: 'FF Milo Serif Pro';
+  font-family: var(—-blog-post__blockquote-quotes-font-family, var(--fontfamily-serif));
   font-weight: bold;
   position: absolute;
   display:inline;
 }
+
 .blog-post__text blockquote > :first-child::before {
   content: '\201C';
   left: var(--grid-spacing-mouse);
