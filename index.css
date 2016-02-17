@@ -55,7 +55,6 @@
 .blog-post__text,
 .blog-post__rubric {
   font-size: var(--text-size-step-0);
-  line-height: var(--text-line-height-serif-on-step-0);
   font-family: var(—-blog-post__text-rubric-font-family, var(--fontfamily-serif));
   color: var(--blog-post-color-text, var(--color-beijing));
 }
@@ -63,10 +62,12 @@
 .blog-post__rubric {
   margin: 0 0 var(--blog-post-rubric-spacing, var(--grid-spacing-fox)) 0;
   font-style: italic;
+  line-height: var(--text-line-height-serif-on-step-0);
 }
 
 .blog-post__text {
   margin-top: var(--blog-post-text-top-margin, var(--grid-spacing-sheep));
+  line-height: var(--blog-post__text-line-height, 1.6);
 }
 
 .blog-post__datetime,
