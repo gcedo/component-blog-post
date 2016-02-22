@@ -1,6 +1,7 @@
 @import '@economist/component-typography';
 @import '@economist/component-palette';
 @import '@economist/component-grid';
+@import 'sharebar.css';
 
 .blog-post {
   font-size: 1rem;

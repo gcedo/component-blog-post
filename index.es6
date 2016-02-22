@@ -1,5 +1,8 @@
 import React from 'react';
 import urlJoin from 'url-join'
+import Balloon from '@economist/component-balloon';
+import Icon from '@economist/component-icon';
+import ShareBar from '@economist/component-sharebar';
 
 export default class BlogPost extends React.Component {
   static get propTypes() {
@@ -11,6 +14,7 @@ export default class BlogPost extends React.Component {
       }),
       author: React.PropTypes.string,
       byline: React.PropTypes.string,
+      shareBar: React.PropTypes.bool,
       section: React.PropTypes.string,
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
@@ -165,6 +169,44 @@ export default class BlogPost extends React.Component {
             itemProp="author"
           >{this.props.byline}</span>
         </p>));
+    }
+    if (this.props.shareBar) {
+      const shareBarTrigger = (<a href="/Sections" className="navigation__sections-link">
+        <Icon icon="share" size="28px" color="black" />
+        <Icon icon="close" size="28px" color="black" />
+      </a>);
+      asideableContent.push((
+        <div className="blog-post__sharebar">
+          <ShareBar
+            icons={[
+             'facebook',
+             'twitter',
+            ]}
+          />
+          <Balloon
+            className="navigation__main-navigation-link navigation__mobile-accordion"
+            trigger={shareBarTrigger}
+          >
+            <ShareBar
+              className="blog-post__sharebar-desktop"
+              icons={[
+                 'linkedin',
+                 'googleplus',
+                ]}
+            />
+            <ShareBar
+              className="blog-post__sharebar-mobile"
+              icons={[
+               'facebook',
+               'twitter',
+               'linkedin',
+               'googleplus',
+               'whatsapp',
+              ]}
+            />
+          </Balloon>
+        </div>
+      ));
     }
     if (asideableContent.length) {
       content.push((
