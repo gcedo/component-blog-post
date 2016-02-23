@@ -5,7 +5,6 @@ export default function Rubric({ rubric }) {
     <p
       className="blog-post__rubric"
       itemProp="description"
-      key={`blog-post__rubric`}
     >{rubric}</p>
   );
 }

@@ -39,7 +39,6 @@ describe(`BlogPost`, () => {
     elm.props.children.should.equal('title');
   });
   it(`formats a date`, () => {
-    const dateTimestamp = 1450210706;
     const today = new Date(2015, 12 - 1, 15, 20, 18);
     const post = TestUtils.renderIntoDocument(
       <BlogPost
@@ -107,7 +106,7 @@ describe(`BlogPost`, () => {
         title="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass( post, 'blog-post__text');
+    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__text');
     elm.props.children.props.className.should.equal('foo');
   });
   it(`renders an image`, () => {

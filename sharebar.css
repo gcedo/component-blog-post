@@ -1,0 +1,114 @@
+@import '@economist/component-balloon';
+
+:root {
+  --color-twitter: #55acee;
+  --color-facebook: #3b5998;
+}
+
+@custom-media --navigation-mobile-down (width <= 768px);
+@custom-media --navigation-mobile-up (width >= 769px);
+@custom-media --navigation-big-desktop-up (width >= 1114px);
+
+.blog-post__toggle-share {
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.blog-post__toggle-share > span {
+  display: inline-block;
+  height: 100%;
+}
+
+.blog-post__toggle-share .balloon__link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.blog-post__toggle-share.balloon--not-visible .blog-post__sharebar-icon-close,
+.blog-post__toggle-share.balloon--visible .blog-post__sharebar-icon-share {
+  display: none;
+}
+
+.blog-post__toggle-share.balloon--not-visible .blog-post__sharebar-icon-share,
+.blog-post__toggle-share.balloon--visible .blog-post__sharebar-icon-close {
+  display: block;
+}
+
+.blog-post__toggle-share.balloon--not-visible .content {
+  display: none;
+}
+
+.blog-post__sharebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.blog-post__sharebar .share-component__icons {
+  display: flex;
+  align-items: center;
+}
+
+.blog-post__sharebar .Icon {
+  width: 31px;
+}
+
+.blog-post__sharebar .share__link {
+  display: block;
+  line-height: 0;
+}
+
+.blog-post__sharebar .share__icon {
+  margin-right: var(--grid-gutter-s);
+}
+
+.blog-post__sharebar .Icon-facebook use {
+  fill: var(--color-facebook);
+}
+
+.blog-post__sharebar .Icon-twitter use {
+  fill: var(--color-twitter);
+}
+
+
+.blog-post__sharebar .balloon-content svg,
+.blog-post__sharebar .balloon-content use {
+  fill: var(--color-thimphu);
+}
+
+.blog-post__sharebar .balloon-content {
+  background: var(--color-kiev);
+  height: 50px;
+  padding: 0;
+  display: flex;
+}
+
+.blog-post__sharebar .balloon-content .share__icon {
+  margin-left: var(--grid-gutter-xs);
+  margin-right: 0;
+}
+
+.blog-post__sharebar .balloon-content .share__icon:last-child {
+  margin-right: var(--grid-gutter-xs);
+}
+
+.blog-post__sharebar .balloon__triangle {
+  border-bottom-color: var(--color-kiev);
+}
+
+@media (--navigation-mobile-down) {
+  .blog-post__sharebar-icon-share,
+  .blog-post__sharebar-icon-close {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media (--navigation-big-desktop-up) {
+  .blog-post__sharebar {
+    justify-content: flex-start;
+    padding-left: var(--grid-gutter-xs);
+  }
+}

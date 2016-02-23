@@ -5,7 +5,6 @@ export default function BlogPostSection({ section }) {
     <h3
       className="blog-post__section"
       itemProp="articleSection"
-      key={`blog-post__section`}
     >{section}</h3>
   );
 }

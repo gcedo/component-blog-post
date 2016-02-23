@@ -1,6 +1,6 @@
 import React from 'react';
 import BlogPost from './';
-import postText from './example-post-text.es6'
+import postText from './example-post-text.es6';
 
 const today = new Date();
 export default (

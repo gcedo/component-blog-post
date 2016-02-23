@@ -5,7 +5,6 @@ export default function FlyTitle({ title }) {
     <h2
       className="blog-post__flytitle"
       itemProp="alternativeHeadline"
-      key={`blog-post__flytitle`}
     >{title}</h2>
   );
 }

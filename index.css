@@ -171,3 +171,26 @@
 .blog-post__text blockquote > :last-child::after {
   margin-top: 0.2em;
 }
+
+.blog-post__asideable-content {
+  border-top: 1px solid var(--color-berlin);
+  border-bottom: 1px solid var(--color-berlin);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: var(--grid-spacing-hedgehog) 0 var(--grid-spacing-hedgehog) 0;
+}
+
+@media (--navigation-big-desktop-up) {
+  .main-content__blog-post .blog-post__asideable-content {
+    border-bottom: none;
+    padding-left: 0;
+  }
+
+  .blog-post__section-date-author {
+    border-bottom: 1px solid var(--color-berlin);
+    padding-bottom: var(--grid-spacing-rabbit);
+    padding-left: var(--grid-gutter-xs);
+    width: 100%;
+  }
+}
