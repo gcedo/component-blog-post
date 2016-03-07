@@ -1,5 +1,16 @@
 import React from 'react';
-import urlJoin from 'url-join'
+import classnames from 'classnames';
+import urlJoin from 'url-join';
+
+import Author from './parts/author';
+import BlogPostImage from './parts/blog-post-image';
+import BlogPostSection from './parts/blog-post-section';
+import FlyTitle from './parts/fly-title';
+import ImageCaption from './parts/image-caption';
+import Rubric from './parts/rubric';
+import ShareBar from './parts/blog-post-sharebar';
+import Text from './parts/text';
+import Title from './parts/title';
 
 export default class BlogPost extends React.Component {
   static get propTypes() {
@@ -11,6 +22,7 @@ export default class BlogPost extends React.Component {
       }),
       author: React.PropTypes.string,
       byline: React.PropTypes.string,
+      shareBar: React.PropTypes.bool,
       section: React.PropTypes.string,
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
@@ -22,7 +34,7 @@ export default class BlogPost extends React.Component {
       dateFormat: React.PropTypes.func,
       text: React.PropTypes.oneOfType([
         React.PropTypes.string,
-        React.PropTypes.node
+        React.PropTypes.node,
       ]).isRequired,
       afterText: React.PropTypes.node,
       itemType: React.PropTypes.string,
@@ -66,99 +78,54 @@ export default class BlogPost extends React.Component {
       },
     };
   }
+
   render() {
     const content = [];
-    if (this.props.flyTitle) {
-      content.push((
-        <h2
-          className="blog-post__flytitle"
-          itemProp="alternativeHeadline"
-          key={`blog-post__flytitle`}
-        >{this.props.flyTitle}</h2>
-      ));
-    }
-    if (this.props.title) {
-      content.push((
-        <h1
-          className="blog-post__title"
-          itemProp="headline"
-          key={`blog-post__title`}
-        >{this.props.title}</h1>));
+    let caption = null;
+    const asideableContent = [];
+    const sectionDateAuthor = [];
+    if (this.props.image && this.props.image.src && this.props.image.caption) {
+      caption = <ImageCaption caption={this.props.image.caption} key="blog-post__image-caption" />;
     }
     if (this.props.rubric) {
-      content.push((
-        <p
-          className="blog-post__rubric"
-          itemProp="description"
-          key={`blog-post__rubric`}
-        >{this.props.rubric}</p>
-      ));
+      content.push(<Rubric rubric={this.props.rubric} key="blog-post__rubric" />);
     }
     if (this.props.image && this.props.image.src) {
-      let caption = null;
-      if (this.props.image.caption) {
-        caption = (
-          <figcaption className="blog-post__image-caption">
-            {this.props.image.caption}
-          </figcaption>
-        );
-      }
-      content.push((
-        <figure className="blog-post__image"
-          key={`blogimg`}
-        >
-          <img {...this.props.image}
-            itemProp="image"
-            className="blog-post__image-block"
-          />
-          {caption}
-        </figure>));
+      content.push(<BlogPostImage caption={caption} imageProps={this.props.image} key="blogimg" />);
     }
-    const asideableContent = [];
     if (this.props.section) {
       let { sectionUrl } = this.props;
-      if (sectionUrl) {
-        if (!/^(\w+:)?\/\//.test(sectionUrl)) {
-          sectionUrl = urlJoin('/', sectionUrl);
-        }
+      if (sectionUrl && !/^(\w+:)?\/\//.test(sectionUrl)) {
+        sectionUrl = urlJoin('/', sectionUrl);
       }
       const section = sectionUrl ? (
-        <a
-          href={sectionUrl}
-          className="blog-post__section-link"
-        >
+        <a href={sectionUrl} className="blog-post__section-link">
           {this.props.section}
         </a>
       ) : this.props.section;
-      asideableContent.push((
-        <h3
-          className="blog-post__section"
-          itemProp="articleSection"
-          key={`blog-post__section`}
-        >{section}</h3>
-      ));
+      sectionDateAuthor.push(<BlogPostSection key="blog-post__section" section={section} />);
     }
     if (this.props.dateTime) {
-      asideableContent.push((
+      sectionDateAuthor.push((
         <time
           className="blog-post__datetime"
           itemProp="dateCreated"
           dateTime={this.props.dateTime}
-          key={`blog-post__datetime`}
+          key="blog-post__datetime"
         >{this.props.dateFormat(this.props.dateTime)}</time>));
     }
     if (this.props.dateString && this.props.timestampISO) {
-      asideableContent.push((
+      sectionDateAuthor.push((
         <time
           className="blog-post__datetime"
           itemProp="dateCreated"
           dateTime={this.props.timestampISO}
-          key={`blog-post__datetime`}
+          key="blog-post__datetimeISO"
         >{this.props.dateString}</time>));
     }
     if (this.props.byline) {
-      asideableContent.push((
-        <p className="blog-post__byline-container" key={`blog-post__byline-container`}>
+      sectionDateAuthor.push((
+        <p className="blog-post__byline-container" key="blog-post__byline-container">
           {"by "}
           <span
             className="blog-post__byline"
@@ -166,61 +133,43 @@ export default class BlogPost extends React.Component {
           >{this.props.byline}</span>
         </p>));
     }
+    if (sectionDateAuthor.length) {
+      asideableContent.push(
+        <div className="blog-post__section-date-author" key="blog-post__section-date-author">
+          {sectionDateAuthor}
+        </div>
+      );
+    }
+    if (this.props.shareBar) {
+      asideableContent.push(<ShareBar key="sharebar" />);
+    }
     if (asideableContent.length) {
       content.push((
-        <div className="blog-post__asideable-content blog-post__asideable-content--meta" key="asideable-content">
+        <div
+          className="blog-post__asideable-content blog-post__asideable-content--meta"
+          key="asideable-content"
+        >
           {asideableContent}
-        </div>
-      ))
-    }
-    if (this.props.author) {
-      content.push((
-        <div
-          className="blog-post__author"
-          itemProp="author"
-          key={`blog-post__author`}
-        >
-          {this.props.author}
-        </div>));
-    }
-    if (typeof this.props.text === 'string') {
-      content.push((
-        <div
-          className="blog-post__text"
-          itemProp="description"
-          key={`blog-post__text`}
-          /* eslint-disable react/no-danger */
-          dangerouslySetInnerHTML={{
-            '__html': this.props.text,
-          }}
-        />));
-    } else if (this.props.text) {
-      content.push((
-        <div
-          className="blog-post__text"
-          itemProp="description"
-          key={`blog-post__text`}
-        >
-          {this.props.text}
         </div>
       ));
     }
-    if (this.props.afterText) {
-      content.push(this.props.afterText);
-    }
-
-    let className = 'blog-post';
-    if (this.props.className) {
-      className += ' ' + this.props.className;
+    if (this.props.author) {
+      content.push(<Author key="blog-post__author" author={this.props.author} />);
     }
 
     return (
       <article
-        className={className}
-        itemScope itemType={this.props.itemType} itemProp={this.props.itemProp}
+        itemScope
+        className={classnames('blog-post', this.props.className)}
+        itemProp={this.props.itemProp}
+        itemType={this.props.itemType}
         role="article"
       >
+        <FlyTitle title={this.props.flyTitle} key="blog-post__flytitle" />
+        <Title title={this.props.title} key="blog-post__title" />
         {content}
+        <Text text={this.props.text} key="blog-post__text" />
+        {this.props.afterText}
       </article>
     );
   }

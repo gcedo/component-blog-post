@@ -1,6 +1,6 @@
 import React from 'react';
 import BlogPost from './';
-import postText from './example-post-text.es6'
+import postText from './example-post-text.es6';
 
 const today = new Date();
 export default (
@@ -18,6 +18,7 @@ export default (
       text={postText}
       itemType="http://schema.org/BlogPosting"
       itemProp="blogPost"
+      shareBar
     />
   </div>
 );
