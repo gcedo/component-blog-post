@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Title({ title }) {
+function Title({ title }) {
   return (
     <h1
       className="blog-post__title"
@@ -8,3 +8,9 @@ export default function Title({ title }) {
     >{title}</h1>
   );
 }
+
+Title.propTypes = {
+  title: React.PropTypes.string.isRequired,
+};
+
+export default Title;

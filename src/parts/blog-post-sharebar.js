@@ -1,8 +1,8 @@
-import React from 'react';
-import ShareBar from '@economist/component-sharebar';
 import Balloon from '@economist/component-balloon';
 import Icon from '@economist/component-icon';
 import MobileDetect from 'mobile-detect';
+import React from 'react';
+import ShareBar from '@economist/component-sharebar';
 import classnames from 'classnames';
 
 const DesktopProviders = (
@@ -34,6 +34,7 @@ export default function BlogPostSideBar() {
 
   let isMobile = false;
   if (typeof window !== 'undefined') {
+    /* global window:false */
     const mobileDetector = new MobileDetect(window.navigator.userAgent);
     isMobile = mobileDetector.mobile() !== null;
   }

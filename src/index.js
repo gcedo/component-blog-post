@@ -1,16 +1,16 @@
-import React from 'react';
-import classnames from 'classnames';
-import urlJoin from 'url-join';
-
 import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
 import BlogPostSection from './parts/blog-post-section';
 import FlyTitle from './parts/fly-title';
 import ImageCaption from './parts/image-caption';
+import React from 'react';
 import Rubric from './parts/rubric';
 import ShareBar from './parts/blog-post-sharebar';
 import Text from './parts/text';
 import Title from './parts/title';
+
+import classnames from 'classnames';
+import urlJoin from 'url-join';
 
 export default class BlogPost extends React.Component {
   static get propTypes() {
@@ -19,6 +19,7 @@ export default class BlogPost extends React.Component {
       image: React.PropTypes.shape({
         src: React.PropTypes.string,
         caption: React.PropTypes.string,
+        alt: React.PropTypes.string,
       }),
       author: React.PropTypes.string,
       byline: React.PropTypes.string,
@@ -46,6 +47,7 @@ export default class BlogPost extends React.Component {
       itemType: 'http://schema.org/BlogPosting',
       itemProp: 'blogPost',
       dateFormat: (date) => {
+        const tenMinutes = 10;
         // Sep 19th 2015, 9:49
         function addPostFix(day) {
           const daystr = day.toString();
@@ -65,77 +67,116 @@ export default class BlogPost extends React.Component {
               postFix = 'th';
               break;
           }
-          return `${day}${postFix}`;
+          return `${ day }${ postFix }`;
         }
-        const shortMonthList = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-        let minutes = date.getMinutes() < 10 ? '0' : '';
+        const shortMonthList = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        ];
+        let minutes = date.getMinutes() < tenMinutes ? '0' : '';
         minutes += date.getMinutes();
-        return [ `${shortMonthList[date.getMonth()]}`,
-                 `${addPostFix(date.getDate())}`,
-                 `${date.getFullYear()},`,
-                 `${date.getHours()}:${minutes}` ].join(' ');
+        return [ `${ shortMonthList[date.getMonth()] }`,
+                 `${ addPostFix(date.getDate()) }`,
+                 `${ date.getFullYear() },`,
+                 `${ date.getHours() }:${ minutes }` ].join(' ');
       },
     };
   }
 
-  render() {
-    const content = [];
-    let caption = null;
-    const asideableContent = [];
-    const sectionDateAuthor = [];
-    if (this.props.image && this.props.image.src && this.props.image.caption) {
-      caption = <ImageCaption caption={this.props.image.caption} key="blog-post__image-caption" />;
-    }
-    if (this.props.rubric) {
-      content.push(<Rubric rubric={this.props.rubric} key="blog-post__rubric" />);
-    }
-    if (this.props.image && this.props.image.src) {
-      content.push(<BlogPostImage caption={caption} imageProps={this.props.image} key="blogimg" />);
-    }
-    if (this.props.section) {
-      let { sectionUrl } = this.props;
-      if (sectionUrl && !/^(\w+:)?\/\//.test(sectionUrl)) {
-        sectionUrl = urlJoin('/', sectionUrl);
-      }
-      const section = sectionUrl ? (
-        <a href={sectionUrl} className="blog-post__section-link">
-          {this.props.section}
-        </a>
-      ) : this.props.section;
-      sectionDateAuthor.push(<BlogPostSection key="blog-post__section" section={section} />);
-    }
-    if (this.props.dateTime) {
-      sectionDateAuthor.push((
+  addDateTime(sectionDateAuthor, props) {
+    const { dateTime, dateFormat, dateString, timestampISO } = props;
+    let result = sectionDateAuthor.slice();
+    if (dateTime) {
+      result = result.concat((
         <time
           className="blog-post__datetime"
           itemProp="dateCreated"
           dateTime={this.props.dateTime}
           key="blog-post__datetime"
-        >{this.props.dateFormat(this.props.dateTime)}</time>));
+        >{dateFormat(dateTime)}</time>));
     }
-    if (this.props.dateString && this.props.timestampISO) {
-      sectionDateAuthor.push((
+    if (dateString && timestampISO) {
+      result = result.concat((
         <time
           className="blog-post__datetime"
           itemProp="dateCreated"
-          dateTime={this.props.timestampISO}
+          dateTime={timestampISO}
           key="blog-post__datetimeISO"
-        >{this.props.dateString}</time>));
+        >{dateString}</time>));
     }
-    if (this.props.byline) {
-      sectionDateAuthor.push((
+    return result;
+  }
+
+  addImage(content, image = {}) {
+    const { src, caption, alt } = image;
+    if (src) {
+      const imageCaption = caption ? <ImageCaption caption={caption} key="blog-post__image-caption" /> : null;
+      return content.concat(
+        <BlogPostImage
+          key="blogimg"
+          caption={imageCaption}
+          src={src}
+          alt={alt}
+        />
+      );
+    }
+    return content;
+  }
+
+  addRubric(content, rubric) {
+    if (rubric) {
+      return content.concat(<Rubric rubric={rubric} key="blog-post__rubric" />);
+    }
+    return content;
+  }
+
+  addBlogPostSection(sectionDateAuthor, section, sectionUrl) {
+    if (section) {
+      if (sectionUrl && !/^(\w+:)?\/\//.test(sectionUrl)) {
+        sectionUrl = urlJoin('/', sectionUrl);
+      }
+      const blogPostSection = sectionUrl ? (
+        <a href={sectionUrl} className="blog-post__section-link">
+          {section}
+        </a>
+      ) : section;
+      return sectionDateAuthor.concat(
+        <BlogPostSection key="blog-post__section" section={blogPostSection} />
+      );
+    }
+    return sectionDateAuthor;
+  }
+
+  addByLine(sectionDateAuthor, byline) {
+    if (byline) {
+      return sectionDateAuthor.concat(
         <p className="blog-post__byline-container" key="blog-post__byline-container">
           {"by "}
           <span
             className="blog-post__byline"
             itemProp="author"
-          >{this.props.byline}</span>
-        </p>));
+          >{byline}</span>
+        </p>
+      );
     }
+    return sectionDateAuthor;
+  }
+
+  render() {
+    let content = [];
+    const asideableContent = [];
+    let sectionDateAuthor = [];
+    content = this.addRubric(content, this.props.rubric);
+    content = this.addImage(content, this.props.image);
+    sectionDateAuthor = this.addBlogPostSection(sectionDateAuthor, this.props.section, this.props.sectionUrl);
+    sectionDateAuthor = this.addDateTime(sectionDateAuthor, this.props);
+    sectionDateAuthor = this.addByLine(sectionDateAuthor, this.props.byline);
     if (sectionDateAuthor.length) {
       asideableContent.push(
-        <div className="blog-post__section-date-author" key="blog-post__section-date-author">
+        <div
+          className="blog-post__section-date-author"
+          key="blog-post__section-date-author"
+        >
           {sectionDateAuthor}
         </div>
       );

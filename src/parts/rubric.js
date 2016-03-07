@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Rubric({ rubric }) {
+function Rubric({ rubric }) {
   return (
     <p
       className="blog-post__rubric"
@@ -8,3 +8,9 @@ export default function Rubric({ rubric }) {
     >{rubric}</p>
   );
 }
+
+Rubric.propTypes = {
+  rubric: React.PropTypes.string.isRequired,
+};
+
+export default Rubric;
