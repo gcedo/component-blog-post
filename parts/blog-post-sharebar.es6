@@ -10,7 +10,6 @@ const DesktopProviders = (
     <ShareBar icons={[ 'linkedin', 'googleplus', 'mail', 'print' ]} />
   </div>
 );
-
 const MobileProviders = (
   <div className="blog-post__sharebar-mobile">
     <ShareBar
@@ -25,7 +24,6 @@ const MobileProviders = (
     />
   </div>
 );
-
 export default function BlogPostSideBar() {
   const shareBarTrigger = (
     <a href="/Sections">
@@ -44,7 +42,6 @@ export default function BlogPostSideBar() {
     <div className="blog-post__sharebar">
       {!isMobile && <ShareBar icons={[ 'twitter', 'facebook' ]} />}
       <Balloon
-        className="blog-post__toggle-share"
         className={classnames(
           'blog-post__toggle-share',
           { 'blog-post__toggle-share-mobile': isMobile }
