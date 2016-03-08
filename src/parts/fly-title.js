@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FlyTitle({ title }) {
+function FlyTitle({ title }) {
   return (
     <h2
       className="blog-post__flytitle"
@@ -8,3 +8,9 @@ export default function FlyTitle({ title }) {
     >{title}</h2>
   );
 }
+
+FlyTitle.propTypes = {
+  title: React.PropTypes.string.isRequired,
+};
+
+export default FlyTitle;

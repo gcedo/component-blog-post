@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Text({ text }) {
+function Text({ text }) {
   if (typeof text === 'string') {
     return (
       <div
@@ -23,3 +23,12 @@ export default function Text({ text }) {
     );
   }
 }
+
+Text.propTypes = {
+  text: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.node,
+  ]).isRequired,
+};
+
+export default Text;

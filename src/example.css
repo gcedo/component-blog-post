@@ -1,15 +1,18 @@
+@import './index.css';
 
 .blog-post {
   font-family: var(--fontfamily-sans);
 }
 
+/* stylelint-disable selector-no-type */
+
 html {
-  line-height: var(--text-line-height-sans-on-step-0);
   font-size: 18px;
+  line-height: var(--text-line-height-sans-on-step-0);
 }
 
 body {
-  background: white;
+  background: #fff;
 }
 
 @media screen and (min-width: 800px) {
@@ -17,7 +20,8 @@ body {
     font-size: 20px;
   }
 }
-@import './index.css';
+
+/* stylelint-enable selector-no-type */
 
 .component-panel {
   overflow: hidden;

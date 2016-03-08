@@ -1,9 +1,19 @@
-import BlogPost from '../index.es6';
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import 'babel-polyfill';
+import BlogPost from '..';
+import React from 'react/addons';
+const TestUtils = React.addons.TestUtils;
+import chai from 'chai';
+chai.should();
 
-describe(`BlogPost`, () => {
-  it(`renders a section`, () => {
+describe('BlogPost', () => {
+  it('is compatible with React.Component', () => {
+    BlogPost.should.be.a('function')
+      .and.respondTo('render');
+  });
+  it('renders a React element', () => {
+    React.isValidElement(<BlogPost />).should.equal(true);
+  });
+  it('renders a section', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         section="section"
@@ -16,7 +26,7 @@ describe(`BlogPost`, () => {
     elm.props.className.should.equal('blog-post__section');
     elm.props.children.should.equal('section');
   });
-  it(`renders a flytitle`, () => {
+  it('renders a flytitle', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         flyTitle="flytitle"
@@ -29,7 +39,7 @@ describe(`BlogPost`, () => {
     elm.props.className.should.equal('blog-post__flytitle');
     elm.props.children.should.equal('flytitle');
   });
-  it(`renders a title`, () => {
+  it('renders a title', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost title="title" text="Required" />
     );
@@ -38,7 +48,7 @@ describe(`BlogPost`, () => {
     elm.props.className.should.equal('blog-post__title');
     elm.props.children.should.equal('title');
   });
-  it(`formats a date`, () => {
+  it('formats a date', () => {
     const today = new Date(2015, 12 - 1, 15, 20, 18);
     const post = TestUtils.renderIntoDocument(
       <BlogPost
@@ -50,7 +60,7 @@ describe(`BlogPost`, () => {
     const formattedDate = post.props.dateFormat(post.props.dateTime);
     formattedDate.should.equal('Dec 15th 2015, 20:18');
   });
-  it(`receives and renders a date string and an ISO timestamp`, () => {
+  it('receives and renders a date string and an ISO timestamp', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         title="Required"
@@ -68,7 +78,7 @@ describe(`BlogPost`, () => {
     elm.props.dateTime.should.equal('2014-12-31T01:40:30Z');
   });
 
-  it(`renders a dateTime`, () => {
+  it('renders a dateTime', () => {
     const today = new Date();
     function dateFormat(date) {
       return date.toString();
@@ -86,7 +96,7 @@ describe(`BlogPost`, () => {
     elm.props.className.should.equal('blog-post__datetime');
     elm.props.children.should.equal(today.toString());
   });
-  it(`renders a text`, () => {
+  it('renders a text', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         text="BlogPost text"
@@ -99,7 +109,7 @@ describe(`BlogPost`, () => {
     /* eslint-disable dot-notation */
     elm.props.dangerouslySetInnerHTML['__html'].should.equal('BlogPost text');
   });
-  it(`can render the text as react 'children' as opposed to dangerouslySetInnerHTML`, () => {
+  it('can render the text as react "children" as opposed to dangerouslySetInnerHTML', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         text={(<div className="foo" />)}
@@ -109,10 +119,10 @@ describe(`BlogPost`, () => {
     const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__text');
     elm.props.children.props.className.should.equal('foo');
   });
-  it(`renders an image`, () => {
+  it('renders an image', () => {
     const img = {
-      src: `//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg`,
-      alt: `Example`,
+      src: '//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg',
+      alt: 'Example',
     };
     const post = TestUtils.renderIntoDocument(
       <BlogPost image={img}
@@ -124,7 +134,7 @@ describe(`BlogPost`, () => {
     elm.props.src.should.equal('//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg');
     elm.props.alt.should.equal('Example');
   });
-  it(`renders the section name`, () => {
+  it('renders the section name', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         section="test section name"
@@ -134,7 +144,7 @@ describe(`BlogPost`, () => {
     const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__section');
     elm.props.children.should.equal('test section name');
   });
-  it(`renders the section link in case of a link`, () => {
+  it('renders the section link in case of a link', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         section="test section name"
@@ -146,7 +156,7 @@ describe(`BlogPost`, () => {
     elm.props.href.should.equal('/foo/bar/baz');
     elm.props.children.should.equal('test section name');
   });
-  it(`also works with links pointing to other domains`, () => {
+  it('also works with links pointing to other domains', () => {
     const post = TestUtils.renderIntoDocument(
       <BlogPost
         section="test section name"
