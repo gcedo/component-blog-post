@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import BlogPost from '..';
 import React from 'react/addons';
-const TestUtils = React.addons.TestUtils;
+import TestUtils from 'react-addons-test-utils';
 import chai from 'chai';
 chai.should();
 
