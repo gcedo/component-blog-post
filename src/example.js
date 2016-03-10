@@ -18,7 +18,6 @@ export default (
       text={postText}
       itemType="http://schema.org/BlogPosting"
       itemProp="blogPost"
-      shareBar
     />
   </div>
 );

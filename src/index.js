@@ -23,7 +23,6 @@ export default class BlogPost extends React.Component {
       }),
       author: React.PropTypes.string,
       byline: React.PropTypes.string,
-      shareBar: React.PropTypes.bool,
       section: React.PropTypes.string,
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
@@ -185,9 +184,7 @@ export default class BlogPost extends React.Component {
         </div>
       );
     }
-    if (this.props.shareBar) {
-      asideableContent.push(<ShareBar key="sharebar" />);
-    }
+    asideableContent.push(<ShareBar key="sharebar" />);
     if (asideableContent.length) {
       content.push((
         <div
