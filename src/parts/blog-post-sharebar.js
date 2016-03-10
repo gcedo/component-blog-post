@@ -7,7 +7,10 @@ import classnames from 'classnames';
 
 const DesktopProviders = (
   <div className="blog-post__sharebar-desktop">
-    <ShareBar icons={[ 'linkedin', 'googleplus', 'mail', 'print' ]} />
+    <ShareBar
+      icons={[ 'linkedin', 'googleplus', 'mail', 'print' ]}
+      urlOverrides={{ mail: 'mailto:?body=' }}
+    />
   </div>
 );
 const MobileProviders = (
@@ -21,6 +24,7 @@ const MobileProviders = (
         'mail',
         'whatsapp',
       ]}
+      urlOverrides={{ mail: 'mailto:?body=' }}
     />
   </div>
 );
