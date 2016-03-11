@@ -70,7 +70,7 @@
   "config": {
     "doc": {
       "js": {
-        "options": "-r react -r react-dom -r ./src/example.js:example"
+        "options": "-d -r react -r react-dom -r ./src/example.js:example"
       },
       "html": {
         "files": "@economist/doc-pack/templates/index.hbs @economist/doc-pack/templates/standalone.hbs"
@@ -86,14 +86,13 @@
   },
   "browserify": {
     "transform": [
-      "babelify"
+      ["babelify", { "sourceMaps": false }]
     ]
   },
   "babel": {
     "compact": false,
     "ignore": "node_modules",
     "loose": "all",
-    "sourceMaps": "inline",
     "stage": 2
   },
   "eslintConfig": {
