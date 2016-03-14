@@ -1,9 +1,11 @@
 import 'babel-polyfill';
 import BlogPost from '../src';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import chai from 'chai';
+import chaiEnzyme from 'chai-enzyme';
+import { mount } from 'enzyme';
 chai.should();
+chai.use(chaiEnzyme());
 
 describe('BlogPost', () => {
   it('is compatible with React.Component', () => {
@@ -14,54 +16,52 @@ describe('BlogPost', () => {
     React.isValidElement(<BlogPost />).should.equal(true);
   });
   it('renders a section', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         section="section"
         title="Required"
         text="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-    post, 'blog-post__section');
-    elm.props.className.should.equal('blog-post__section');
-    elm.props.children.should.equal('section');
+    post.should.have.exactly(1).descendants('.blog-post__section');
+    post.find('.blog-post__section').should.have.text('section');
+    post.find('.blog-post__section').should.have.tagName('h3');
   });
   it('renders a flytitle', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         flyTitle="flytitle"
         title="Required"
         text="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-    post, 'blog-post__flytitle');
-    elm.props.className.should.equal('blog-post__flytitle');
-    elm.props.children.should.equal('flytitle');
+    post.should.have.className('blog-post')
+      .and.have.exactly(1).descendants('.blog-post__flytitle');
+    post.find('.blog-post__flytitle').should.have.text('flytitle');
   });
   it('renders a title', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost title="title" text="Required" />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-    post, 'blog-post__title');
-    elm.props.className.should.equal('blog-post__title');
-    elm.props.children.should.equal('title');
+    post.should.have.exactly(1).descendants('.blog-post__title');
+    post.find('.blog-post__title').should.have.tagName('h1');
+    post.find('.blog-post__title').should.have.text('title');
   });
   it('formats a date', () => {
     const today = new Date(2015, 12 - 1, 15, 20, 18);
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         dateTime={today}
         title="Required"
         text="Required"
       />
     );
-    const formattedDate = post.props.dateFormat(post.props.dateTime);
-    formattedDate.should.equal('Dec 15th 2015, 20:18');
+    post.should.have.exactly(1).descendants('.blog-post__datetime');
+    post.find('.blog-post__datetime').should.have.tagName('time');
+    post.find('.blog-post__datetime').should.have.text('Dec 15th 2015, 20:18');
   });
   it('receives and renders a date string and an ISO timestamp', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         title="Required"
         text="Required"
@@ -69,13 +69,10 @@ describe('BlogPost', () => {
         timestampISO="2014-12-31T01:40:30Z"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-      post,
-      'blog-post__datetime'
-    );
-    elm.props.className.should.equal('blog-post__datetime');
-    elm.props.children.should.equal('some date, 2015');
-    elm.props.dateTime.should.equal('2014-12-31T01:40:30Z');
+    post.should.have.exactly(1).descendants('.blog-post__datetime');
+    post.find('.blog-post__datetime').should.have.tagName('time');
+    post.find('.blog-post__datetime').should.have.text('some date, 2015');
+    post.find('.blog-post__datetime').should.have.attr('datetime', '2014-12-31T01:40:30Z');
   });
 
   it('renders a dateTime', () => {
@@ -83,7 +80,7 @@ describe('BlogPost', () => {
     function dateFormat(date) {
       return date.toString();
     }
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         dateTime={today}
         title="Required"
@@ -91,80 +88,72 @@ describe('BlogPost', () => {
         text="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-    post, 'blog-post__datetime');
-    elm.props.className.should.equal('blog-post__datetime');
-    elm.props.children.should.equal(today.toString());
+    post.should.have.exactly(1).descendants('.blog-post__datetime');
+    post.find('.blog-post__datetime').should.have.tagName('time');
+    post.find('.blog-post__datetime').should.have.text(today.toString());
   });
   it('renders a text', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         text="BlogPost text"
         title="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(
-      post, 'blog-post__text');
-    elm.props.className.should.equal('blog-post__text');
-    /* eslint-disable dot-notation */
-    elm.props.dangerouslySetInnerHTML['__html'].should.equal('BlogPost text');
+    post.should.have.exactly(1).descendants('.blog-post__text');
+    post.find('.blog-post__text').should.have.text('BlogPost text');
   });
   it('can render the text as react "children" as opposed to dangerouslySetInnerHTML', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         text={(<div className="foo" />)}
         title="Required"
       />
     );
-    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__text');
-    elm.props.children.props.className.should.equal('foo');
+    post.find('.blog-post__text').should.have.exactly(1).descendants('.foo');
   });
   it('renders an image', () => {
     const img = {
       src: '//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg',
       alt: 'Example',
     };
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost image={img}
         title="Required"
         text="Required"
       />);
-    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__image-block');
-    elm.props.className.should.equal('blog-post__image-block');
-    elm.props.src.should.equal('//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg');
-    elm.props.alt.should.equal('Example');
+    post.should.have.exactly(1).descendants('.blog-post__image-block');
+    post.find('.blog-post__image-block').should.have.attr('src')
+      .equal('//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg');
+    post.find('.blog-post__image-block').should.have.attr('alt', 'Example');
   });
   it('renders the section name', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         section="test section name"
         title="Required"
         text="Required"
       />);
-    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__section');
-    elm.props.children.should.equal('test section name');
+    post.find('.blog-post__section').should.have.text('test section name');
   });
   it('renders the section link in case of a link', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         section="test section name"
         sectionUrl="foo/bar/baz"
         title="Required"
         text="Required"
       />);
-    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__section-link');
-    elm.props.href.should.equal('/foo/bar/baz');
-    elm.props.children.should.equal('test section name');
+    post.find('.blog-post__section-link').should.have.attr('href', '/foo/bar/baz');
+    post.find('.blog-post__section-link').should.have.text('test section name');
   });
   it('also works with links pointing to other domains', () => {
-    const post = TestUtils.renderIntoDocument(
+    const post = mount(
       <BlogPost
         section="test section name"
         sectionUrl="http://foo.io/bar/baz"
         title="Required"
         text="Required"
       />);
-    const elm = TestUtils.findRenderedDOMComponentWithClass(post, 'blog-post__section-link');
-    elm.props.href.should.equal('http://foo.io/bar/baz');
+    post.find('.blog-post__section-link').should.have.attr('href', 'http://foo.io/bar/baz');
   });
 });
