@@ -1,5 +1,7 @@
 const packageJson = require('./package.json');
 const path = require('path');
+const browserifyIstanbul = require('browserify-istanbul');
+const isparta = require('isparta');
 const oneSecondInMilliseconds = 1000;
 const oneMinuteInSeconds = 60;
 const twoMinutesInMilliseconds = oneSecondInMilliseconds * oneMinuteInSeconds * 2;
@@ -45,13 +47,15 @@ module.exports = function configureKarma(config) {
     basePath: '',
     browsers: localBrowsers,
     logLevel: config.LOG_INFO,
-    frameworks: [ 'mocha' ],
+    frameworks: [ 'browserify', 'mocha' ],
     files: [
-      path.join(packageJson.directories.site, 'bundle.js'),
+      path.join(packageJson.directories.test, '*.js'),
     ],
     exclude: [],
-    preprocessors: {},
-    reporters: [ 'mocha' ],
+    preprocessors: {
+      [path.join(packageJson.directories.test, '*.js')]: [ 'browserify' ],
+    },
+    reporters: [ 'mocha', 'coverage' ],
     port: 9876,
     colors: true,
     concurrency: 3,
@@ -60,6 +64,19 @@ module.exports = function configureKarma(config) {
     browserDisconnectTimeout: twoMinutesInMilliseconds,
     browserNoActivityTimeout: twoMinutesInMilliseconds,
     singleRun: true,
+    browserify: {
+      transform: [
+        browserifyIstanbul({
+          instrumenter: isparta,
+          ignore: [ '**/node_modules/**', '**/test/**' ],
+        }),
+        'babelify',
+      ],
+    },
+    coverageReporter: {
+      type: 'lcov',
+      dir: 'coverage',
+    },
   });
 
   if (process.env.SAUCE_ACCESS_KEY && process.env.SAUCE_USERNAME) {
