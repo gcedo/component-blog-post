@@ -70,7 +70,7 @@
   "config": {
     "doc": {
       "js": {
-        "options": "-d -r react -r react-dom -r ./src/example.js:example"
+        "options": "-x react/lib/ReactContext -x react/lib/ExecutionEnvironment -d -r react -r react-dom -r ./src/example.js:example"
       },
       "html": {
         "files": "@economist/doc-pack/templates/index.hbs @economist/doc-pack/templates/standalone.hbs"
@@ -127,7 +127,9 @@
     "browserify": "^13.0.0",
     "browserify-istanbul": "^1.0.0",
     "chai": "^3.5.0",
+    "chai-enzyme": "^0.4.1",
     "chai-spies": "^0.7.1",
+    "enzyme": "^2.1.0",
     "eslint": "^2.4.0",
     "eslint-config-strict": "^8.5.0",
     "eslint-config-strict-react": "^8.0.1",
