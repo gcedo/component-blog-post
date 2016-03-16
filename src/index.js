@@ -111,17 +111,19 @@ export default class BlogPost extends React.Component {
   }
 
   addImage(content, image = {}) {
-    const { src, caption, alt } = image;
-    if (src) {
-      const imageCaption = caption ? <ImageCaption caption={caption} key="blog-post__image-caption" /> : null;
-      return content.concat(
-        <BlogPostImage
-          key="blogimg"
-          caption={imageCaption}
-          src={src}
-          alt={alt}
-        />
-      );
+    if (image) {
+      const { src, caption, alt } = image;
+      if (src) {
+        const imageCaption = caption ? <ImageCaption caption={caption} key="blog-post__image-caption" /> : null;
+        return content.concat(
+          <BlogPostImage
+            key="blogimg"
+            caption={imageCaption}
+            src={src}
+            alt={alt}
+          />
+        );
+      }
     }
     return content;
   }
