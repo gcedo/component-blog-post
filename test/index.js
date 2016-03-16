@@ -113,8 +113,17 @@ describe('BlogPost', () => {
     post.find('.blog-post__section-link').should.have.attr('href', 'http://foo.io/bar/baz');
   });
 
-  describe('Sharebar', () => {
+  describe('Invalid props', () => {
+    it('should render when `props.image` is null', () => {
+      const post = mountComponentWithProps({ image: null });
+      post.should.have.exactly(1).descendants('.blog-post__flytitle');
+      post.should.have.exactly(1).descendants('.blog-post__title');
+      post.should.have.exactly(1).descendants('.blog-post__text');
+      post.should.not.have.descendants('.blog-post__image');
+    });
+  });
 
+  describe('Sharebar', () => {
     describe('desktop', () => {
       it('should feature the twitter and facebook share buttons', () => {
         const post = mountComponentWithProps();
