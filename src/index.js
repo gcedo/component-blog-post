@@ -82,10 +82,6 @@ export default class BlogPost extends React.Component {
     };
   }
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
   addDateTime(sectionDateAuthor, props) {
     const { dateTime, dateFormat, dateString, timestampISO } = props;
     let result = sectionDateAuthor.slice();

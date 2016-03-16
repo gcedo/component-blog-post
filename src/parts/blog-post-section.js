@@ -10,10 +10,7 @@ function BlogPostSection({ section }) {
 }
 
 BlogPostSection.propTypes = {
-  section: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element,
-  ]).isRequired,
+  section: React.PropTypes.node.isRequired,
 };
 
 export default BlogPostSection;

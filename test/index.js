@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import BlogPost from '../src';
+import MobileDetect from 'mobile-detect';
 import React from 'react';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
@@ -124,7 +125,19 @@ describe('BlogPost', () => {
   });
 
   describe('Sharebar', () => {
+    let mobileDetector = null;
+    before(() => {
+      /* global window:false */
+      mobileDetector = new MobileDetect(window.navigator.userAgent);
+    });
+
     describe('desktop', () => {
+      before(function () {
+        if (mobileDetector.mobile()) {
+          this.skip(); // eslint-disable-line no-invalid-this
+        }
+      });
+
       it('should feature the twitter and facebook share buttons', () => {
         const post = mountComponentWithProps();
         const twitterShareLinkNode = post.find('.share__icon--twitter').find('a');
@@ -156,6 +169,44 @@ describe('BlogPost', () => {
         balloonContentNode.should.have.exactly(1).descendants('.share__icon--print');
         balloonContentNode.find('.share__icon--print').find('a')
           .should.have.attr('href', 'javascript:if(window.print)window.print()'); // eslint-disable-line no-script-url
+      });
+    });
+
+    describe('mobile', () => {
+      before(function () {
+        if (!mobileDetector.mobile()) {
+          this.skip(); // eslint-disable-line no-invalid-this
+        }
+      });
+
+      it('should show the mobile providers', () => {
+        const post = mountComponentWithProps();
+        const shareBalloonNode = post.find('.blog-post__toggle-share-mobile');
+        const balloonContentNode = shareBalloonNode.find('.balloon-content');
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--twitter');
+        balloonContentNode.find('.share__icon--twitter').find('a')
+          .should.have.attr('href', 'https://twitter.com/intent/tweet?url=');
+
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--facebook');
+        balloonContentNode.find('.share__icon--facebook').find('a')
+          .should.have.attr('href', 'http://www.facebook.com/sharer/sharer.php?u=');
+
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--linkedin');
+        balloonContentNode.find('.share__icon--linkedin').find('a')
+          .should.have.attr('href', 'https://www.linkedin.com/cws/share?url=');
+
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--googleplus');
+        balloonContentNode.find('.share__icon--googleplus').find('a')
+          .should.have.attr('href', 'https://plus.google.com/share?url=');
+
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--mail');
+        balloonContentNode.find('.share__icon--mail').find('a')
+          .should.have.attr('href', 'mailto:?body=');
+
+        balloonContentNode.should.have.exactly(1).descendants('.share__icon--whatsapp');
+        balloonContentNode.find('.share__icon--whatsapp').find('a')
+          .should.have.attr('href', 'whatsapp://send?text=');
+
       });
     });
 
