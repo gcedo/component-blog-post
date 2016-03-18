@@ -10,7 +10,7 @@ function BlogPostSection({ section }) {
 }
 
 BlogPostSection.propTypes = {
-  section: React.PropTypes.string.isRequired,
+  section: React.PropTypes.node.isRequired,
 };
 
 export default BlogPostSection;

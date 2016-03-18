@@ -16,7 +16,7 @@ function BlogPostImage({ caption, src, alt }) {
 
 BlogPostImage.propTypes = {
   alt: React.PropTypes.string,
-  caption: React.PropTypes.string.isRequired,
+  caption: React.PropTypes.element,
   src: React.PropTypes.string.isRequired,
 };
 
