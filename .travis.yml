@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+node_js:
+  - stable
+  - '4'
+before_install:
+  - npm i -g npm
+script:
+  - npm t
