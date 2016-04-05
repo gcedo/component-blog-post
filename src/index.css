@@ -1,11 +1,13 @@
 @import '@economist/component-typography';
 @import '@economist/component-palette';
 @import '@economist/component-grid';
+@import '@economist/component-icon/backgrounds/balloon.css';
+@import 'settings.css';
 @import 'sharebar.css';
+@import 'comments.css';
 
 .blog-post {
   font-family: var(--fontfamily-sans);
-
   font-size: var(--text-size-step-0, 1rem);
   line-height: var(--text-line-height-sans-on-step-0);
 }

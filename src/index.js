@@ -1,6 +1,7 @@
 import Author from './parts/author';
 import BlogPostImage from './parts/blog-post-image';
 import BlogPostSection from './parts/blog-post-section';
+import Comments from './parts/comments';
 import FlyTitle from './parts/fly-title';
 import ImageCaption from './parts/image-caption';
 import React from 'react';
@@ -39,12 +40,24 @@ export default class BlogPost extends React.Component {
       afterText: React.PropTypes.node,
       itemType: React.PropTypes.string,
       itemProp: React.PropTypes.string,
+      commentCount: React.PropTypes.number.isRequired,
+      commentStatus: React.PropTypes.oneOf([
+        'disabled',
+        'readonly',
+        'readwrite',
+        'fbcommentplugin',
+      ]).isRequired,
+      firstToCommentLabel: React.PropTypes.string.isRequired,
+      viewCommentsLabel: React.PropTypes.string.isRequired,
+      commentsUri: React.PropTypes.string.isRequired,
     };
   }
   static get defaultProps() {
     return {
       itemType: 'http://schema.org/BlogPosting',
       itemProp: 'blogPost',
+      firstToCommentLabel: 'Be the first to comment',
+      viewCommentsLabel: 'View comments',
       dateFormat: (date) => {
         const tenMinutes = 10;
         // Sep 19th 2015, 9:49
@@ -196,6 +209,20 @@ export default class BlogPost extends React.Component {
     if (this.props.author) {
       content.push(<Author key="blog-post__author" author={this.props.author} />);
     }
+    content.push(<Text text={this.props.text} key="blog-post__text" />);
+    content.push(this.props.afterText);
+    const { commentCount, commentStatus } = this.props;
+    if (commentStatus !== 'disabled' && !(commentStatus === 'readonly' && commentCount === 0)) {
+      content.push(
+        <Comments
+          key="blog-post__comments"
+          firstToCommentLabel={this.props.firstToCommentLabel}
+          commentCount={commentCount}
+          viewCommentsLabel={this.props.viewCommentsLabel}
+          commentsUri={this.props.commentsUri}
+        />
+      );
+    }
 
     return (
       <article
@@ -208,8 +235,7 @@ export default class BlogPost extends React.Component {
         <FlyTitle title={this.props.flyTitle} key="blog-post__flytitle" />
         <Title title={this.props.title} key="blog-post__title" />
         {content}
-        <Text text={this.props.text} key="blog-post__text" />
-        {this.props.afterText}
+
       </article>
     );
   }

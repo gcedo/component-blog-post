@@ -19,6 +19,10 @@ const requiredProps = {
   section: 'Required section',
   text: 'Required text',
   title: 'Required title',
+  commentCount: 10,
+  commentsUri: 'http://google.com',
+  viewCommentsLabel: 'foo',
+  commentStatus: 'readwrite',
 };
 
 const mountComponentWithProps = mountComponent(requiredProps);
@@ -27,27 +31,74 @@ describe('BlogPost', () => {
     BlogPost.should.be.a('function')
       .and.respondTo('render');
   });
+
   it('renders a React element', () => {
     React.isValidElement(<BlogPost {...requiredProps} />).should.equal(true);
   });
-  it('renders a section', () => {
-    const post = mountComponentWithProps();
-    post.should.have.exactly(1).descendants('.blog-post__section');
-    post.find('.blog-post__section').should.have.text(requiredProps.section);
-    post.find('.blog-post__section').should.have.tagName('h3');
-  });
-  it('renders a flytitle', () => {
-    const post = mountComponentWithProps();
-    post.should.have.className('blog-post')
+
+  describe('Simple rendering', () => {
+    let post = null;
+    before(() => {
+      post = mountComponentWithProps();
+    });
+
+    it('renders a section', () => {
+      post.should.have.exactly(1).descendants('.blog-post__section');
+      post.find('.blog-post__section').should.have.text(requiredProps.section);
+      post.find('.blog-post__section').should.have.tagName('h3');
+    });
+
+    it('renders a flytitle', () => {
+      post.should.have.className('blog-post')
       .and.have.exactly(1).descendants('.blog-post__flytitle');
-    post.find('.blog-post__flytitle').should.have.text(requiredProps.flyTitle);
+      post.find('.blog-post__flytitle').should.have.text(requiredProps.flyTitle);
+    });
+
+    it('renders a title', () => {
+      post.should.have.exactly(1).descendants('.blog-post__title');
+      post.find('.blog-post__title').should.have.tagName('h1');
+      post.find('.blog-post__title').should.have.text(requiredProps.title);
+    });
+
+    it('renders a text', () => {
+      post.should.have.exactly(1).descendants('.blog-post__text');
+      post.find('.blog-post__text').should.have.text(requiredProps.text);
+    });
+
+    it('renders the section name', () => {
+      post.find('.blog-post__section').should.have.text(requiredProps.section);
+    });
+
   });
-  it('renders a title', () => {
-    const post = mountComponentWithProps();
-    post.should.have.exactly(1).descendants('.blog-post__title');
-    post.find('.blog-post__title').should.have.tagName('h1');
-    post.find('.blog-post__title').should.have.text(requiredProps.title);
+
+  describe('Comments', () => {
+    it('renders the comments (#comments > 0)', () => {
+      const post = mountComponentWithProps({ commentCount: 10 });
+      post.should.have.exactly(1).descendants('.blog-post__comments');
+      post.find('.blog-post__comments').should.have.attr('href', requiredProps.commentsUri);
+      post.find('.blog-post__comments-label')
+      .should.have.text('foo (10)');
+    });
+
+    it('renders the comments (#comments = 0)', () => {
+      const post = mountComponentWithProps({ commentCount: 0 });
+      post.should.have.exactly(1).descendants('.blog-post__comments');
+      post.find('.blog-post__comments').should.have.attr('href', requiredProps.commentsUri);
+      post.find('.blog-post__comments-label').should.have.text('Be the first to comment');
+    });
+
+    it('hides the comments when comments are disabled', () => {
+      const post = mountComponentWithProps({ commentStatus: 'disabled' });
+      post.should.not.have.descendants('.blog-post__comments');
+    });
+
+    it('hides the comments when #comments = 0 and comments are closed', () => {
+      const post = mountComponentWithProps({ commentStatus: 'readonly', commentCount: 0 });
+      post.should.not.have.descendants('.blog-post__comments');
+    });
+
   });
+
   it('formats a date', () => {
     const today = new Date(2015, 12 - 1, 15, 20, 18);
     const post = mountComponentWithProps({ dateTime: today });
@@ -55,6 +106,7 @@ describe('BlogPost', () => {
     post.find('.blog-post__datetime').should.have.tagName('time');
     post.find('.blog-post__datetime').should.have.text('Dec 15th 2015, 20:18');
   });
+
   it('receives and renders a date string and an ISO timestamp', () => {
     const post = mountComponentWithProps({
       dateString: 'some date, 2015',
@@ -79,15 +131,12 @@ describe('BlogPost', () => {
     post.find('.blog-post__datetime').should.have.tagName('time');
     post.find('.blog-post__datetime').should.have.text(today.toString());
   });
-  it('renders a text', () => {
-    const post = mountComponentWithProps();
-    post.should.have.exactly(1).descendants('.blog-post__text');
-    post.find('.blog-post__text').should.have.text(requiredProps.text);
-  });
+
   it('can render the text as react "children" as opposed to dangerouslySetInnerHTML', () => {
     const post = mountComponentWithProps({ text: <div className="foo" /> });
     post.find('.blog-post__text').should.have.exactly(1).descendants('.foo');
   });
+
   it('renders an image', () => {
     const image = {
       src: '//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg',
@@ -100,15 +149,13 @@ describe('BlogPost', () => {
       .equal('//cdn.static-economist.com/sites/all/themes/econfinal/images/svg/logo.svg');
     post.find('.blog-post__image-block').should.have.attr('alt', 'Example');
   });
-  it('renders the section name', () => {
-    const post = mountComponentWithProps();
-    post.find('.blog-post__section').should.have.text(requiredProps.section);
-  });
+
   it('renders the section link in case of a link', () => {
     const post = mountComponentWithProps({ sectionUrl: 'foo/bar/baz' });
     post.find('.blog-post__section-link').should.have.attr('href', '/foo/bar/baz');
     post.find('.blog-post__section-link').should.have.text(requiredProps.section);
   });
+
   it('also works with links pointing to other domains', () => {
     const post = mountComponentWithProps({ sectionUrl: 'http://foo.io/bar/baz' });
     post.find('.blog-post__section-link').should.have.attr('href', 'http://foo.io/bar/baz');
@@ -206,10 +253,7 @@ describe('BlogPost', () => {
         balloonContentNode.should.have.exactly(1).descendants('.share__icon--whatsapp');
         balloonContentNode.find('.share__icon--whatsapp').find('a')
           .should.have.attr('href', 'whatsapp://send?text=');
-
       });
     });
-
   });
-
 });
