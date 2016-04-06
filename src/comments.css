@@ -1,0 +1,25 @@
+.blog-post__comments {
+  display: var(--comments-display);
+  width: var(--comments-width);
+  margin-bottom: var(--comments-margin-bottom);
+  padding: var(--grid-spacing-fox);
+  align-items: var(--comments-align-items);
+  justify-content: var(--comments-justify-content);
+  cursor: var(--comments-cursor);
+  color: var(--comments-color);
+  font-family: var(--comments-font-family);
+  font-size: var(--comments-font-size);
+  line-height: var(--comments-line-height);
+  text-decoration: none;
+  background: var(--comments-background);
+  border-top: var(--comments-border-top);
+  border-right: var(--comments-border-right);
+  border-bottom: var(--comments-border-top);
+  border-left: var(--comments-border-left);
+}
+
+.blog-post__comments-icon {
+  width: var(--comments__icon-width);
+  height: var(--comments__icon-height);
+  margin-right: var(--comments__icon-margin-right);
+}

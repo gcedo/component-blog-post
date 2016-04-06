@@ -1,0 +1,23 @@
+:root {
+  --comments-height: 40px;
+  --comments-border-top: 1px solid var(--color-berlin);
+  --comments-border-bottom: 1px solid var(--color-berlin);
+  --comments-font-family: EconSans, Arial;
+  --comments-display: flex;
+  --comments-width: 100%;
+  --comments-padding: var(--grid-spacing-fox);
+  --comments-align-items: center;
+  --comments-justify-content: center;
+  --comments-cursor: pointer;
+  --comments-color: inherit;
+  --comments-font-size: inherit;
+  --comments-line-height: normal;
+  --comments-background: none;
+  --comments-border-right: 0;
+  --comments-border-left: 0;
+  --comments-margin-bottom: var(--grid-spacing-fox);
+
+  --comments__icon-width: 25px;
+  --comments__icon-height: 25px;
+  --comments__icon-margin-right: var(--grid-gutter-xs);
+}
