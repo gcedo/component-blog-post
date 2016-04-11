@@ -24,7 +24,7 @@ export default class BlogPost extends React.Component {
       }),
       author: React.PropTypes.string,
       byline: React.PropTypes.string,
-      section: React.PropTypes.string,
+      section: React.PropTypes.node,
       sectionUrl: React.PropTypes.string,
       flyTitle: React.PropTypes.string,
       title: React.PropTypes.string.isRequired,
