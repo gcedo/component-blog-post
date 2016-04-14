@@ -107,7 +107,7 @@
     ]
   },
   "dependencies": {
-    "@economist/component-balloon": "^2.0.2",
+    "@economist/component-balloon": "^2.3.0",
     "@economist/component-grid": "^1.1.0",
     "@economist/component-icon": "^5.11.0",
     "@economist/component-palette": "^1.4.5",
