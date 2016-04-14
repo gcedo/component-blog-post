@@ -6,12 +6,10 @@ const oneSecondInMilliseconds = 1000;
 const oneMinuteInSeconds = 60;
 const twoMinutesInMilliseconds = oneSecondInMilliseconds * oneMinuteInSeconds * 2;
 function configureBuildValue() {
-  /* eslint-disable prefer-template */
   if (process.env.GO_PIPELINE_NAME && process.env.GO_PIPELINE_LABEL) {
-    return process.env.GO_PIPELINE_NAME + '-' + process.env.GO_PIPELINE_LABEL;
+    return `${ process.env.GO_PIPELINE_NAME }-${ process.env.GO_PIPELINE_LABEL }`;
   }
-  return 'localbuild-' + new Date().toJSON();
-  /* eslint-enable prefer-template */
+  return `localbuild-${ new Date().toJSON() }`;
 }
 module.exports = function configureKarma(config) {
   const localBrowsers = [
@@ -29,6 +27,7 @@ module.exports = function configureKarma(config) {
     SauceSafariLatest: {
       base: 'SauceLabs',
       browserName: 'Safari',
+      platform: 'Mac 10.9',
     },
     SauceInternetExplorerLatest: {
       base: 'SauceLabs',
