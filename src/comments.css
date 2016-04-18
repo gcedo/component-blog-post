@@ -1,6 +1,5 @@
 .blog-post__comments {
   display: var(--comments-display);
-  width: var(--comments-width);
   margin-bottom: var(--comments-margin-bottom);
   padding: var(--grid-spacing-fox);
   align-items: var(--comments-align-items);

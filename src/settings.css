@@ -4,7 +4,6 @@
   --comments-border-bottom: 1px solid var(--color-berlin);
   --comments-font-family: EconSans, Arial;
   --comments-display: flex;
-  --comments-width: 100%;
   --comments-padding: var(--grid-spacing-fox);
   --comments-align-items: center;
   --comments-justify-content: center;
